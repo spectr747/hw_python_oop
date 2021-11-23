@@ -66,7 +66,29 @@ class Running(Training):
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-    pass
+    
+    coeff_calorie_1         = 0.035
+    coeff_calorie_2         = 0.029
+    MIN_IN_HOUR             = 60
+
+    def __init__(self,
+                action: int,
+                duration: float,
+                weight: float,
+                height: float,
+                ) -> None:
+        super().__init__(action, duration, weight)
+        self.height = height
+
+    def get_spent_calories(self) -> float:
+        
+        calories = (
+            (self.coeff_calorie_1 * self.weight
+            + (self.get_mean_speed()**2 // self.height)
+            * self.coeff_calorie_2 * self.weight) 
+            * self.duration * self.MIN_IN_HOUR
+        )
+        return calories
 
 
 class Swimming(Training):
