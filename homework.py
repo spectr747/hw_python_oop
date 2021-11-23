@@ -6,20 +6,29 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
 
+    LEN_STEP                = 0.65
+    M_IN_KM                 = 1000
+
     def __init__(self,
                  action: int,
                  duration: float,
                  weight: float,
                  ) -> None:
-        pass
+        self.action         = action
+        self.duration       = duration
+        self.weight         = weight
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        pass
+        
+        distance = (self.action * self.LEN_STEP) / self.M_IN_KM
+        return distance
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
-        pass
+        
+        speed = self.get_distance() / self.duration
+        return speed
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
@@ -27,7 +36,15 @@ class Training:
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        pass
+        
+        info_message = InfoMessage(
+            self.__class__.__name__,
+            self.duration,
+            self.get_distance(),
+            self.get_mean_speed(),
+            self.get_spent_calories()
+        )
+        return info_message
 
 
 class Running(Training):
