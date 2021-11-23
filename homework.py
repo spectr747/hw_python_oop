@@ -49,7 +49,19 @@ class Training:
 
 class Running(Training):
     """Тренировка: бег."""
-    pass
+    
+    coeff_calorie_1         = 18
+    coeff_calorie_2         = 20
+    MIN_IN_HOUR             = 60
+
+    def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
+        
+        calories = (
+            (self.coeff_calorie_1 * self.get_mean_speed() - self.coeff_calorie_2)
+            * self.weight / self.M_IN_KM * self.duration * self.MIN_IN_HOUR
+        )
+        return calories
 
 
 class SportsWalking(Training):
