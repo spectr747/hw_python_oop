@@ -117,7 +117,38 @@ class SportsWalking(Training):
 
 class Swimming(Training):
     """Тренировка: плавание."""
-    pass
+    
+    LEN_STEP                = 1.38
+    coeff_calorie_3         = 1.1
+
+    def __init__(self, 
+                action: int, 
+                duration: float, 
+                weight: float,
+                length_pool: float,
+                count_pool: int,
+                ) -> None:
+        super().__init__(action, duration, weight)
+        self.length_pool = length_pool
+        self.count_pool = count_pool
+
+    def get_mean_speed(self) -> float:
+        """Получить среднюю скорость движения."""
+        
+        speed = (
+            ((self.length_pool * self.count_pool)
+            / self.M_IN_KM) / self.duration
+        )
+        return speed
+
+    def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
+
+        calories = (
+            (self.get_mean_speed() + self.coeff_calorie_3)
+            * 2 * self.weight
+        )
+        return calories
 
 
 def read_package(workout_type: str, data: list) -> Training:
